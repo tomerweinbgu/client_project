@@ -5,7 +5,7 @@ import hljs from "highlight.js";
 import "highlight.js/styles/base16/atelier-dune-light.min.css";
 
 interface AnswerObject {
-    contentType: string;
+    content_type: string;
     answer: string;
   }
 
@@ -20,6 +20,7 @@ const navigate = useNavigate();
   const [fileId, setFileId] = useState<string>("");
   const [textareaValue, setTextareaValue] = useState<string>("");
   const [fileUploaded, setFileUploaded] = useState<boolean>(false);
+  
 
 
 
@@ -27,9 +28,12 @@ const navigate = useNavigate();
     setQuestionLoading(true);
     setError("");
 
+    console.log("text area value", textareaValue)
+
     const formData = new FormData();
     formData.append('file_id', fileId);
     formData.append('question', textareaValue);
+
 
     try {
       const response = await fetch('http://127.0.0.1:8000/ask_question', {
@@ -39,7 +43,10 @@ const navigate = useNavigate();
 
       const data: AnswerObject[] = await response.json();
       console.log(data);
-      console.log("hey");
+      console.log("hey1");
+      console.log("hey2");
+      console.log("hey3");
+      console.log(data[0].answer);
       setAnswersData(data);
       if (data.length > 0){
         const formattedText = data[0].answer.split("\n").map(line => `({ contentType: 'text', answer: '${line}' })`).join(", ");
@@ -117,30 +124,35 @@ const navigate = useNavigate();
       {error && <p className="error">{error}</p>}
 
 <div>
-      <button onClick={fetchQuestion} className="quizButton">Ask a Question</button>
+      {textareaValue != ""?
+       <button onClick={fetchQuestion} className="questionButton">Ask a Question</button> :
+       <button onClick={fetchQuestion} className="questionButtonDisabled">Ask a Question</button> 
+      } 
       </div>
   </div>
 }
 
+{questionLoading && <p>Loading...</p>}
+      {error && <p className="error">{error}</p>}
 
-
-
-    {highlightedHtml &&
-    <div className="title-text">
+  {answersData &&
+  <div className="title-text">
     <h3 className="title"> Answer: </h3>
+    {highlightedHtml && answersData[0].content_type === "typescript" ?
+
     <pre className="answerArea">
         <code dangerouslySetInnerHTML={{ __html: highlightedHtml }} />
-    </pre>
+    </pre> :
+    <div 
+    className="answerArea" aria-readonly="true">
+    {answersData && answersData.length > 0 ? answersData[0].answer : ''}  
     </div>
-}
-
-{/* <textarea 
-    className="answerArea" 
-    value={answersData && answersData.length > 0 ? answersData[0].answer : ''}  
-    readOnly
-  /> */}
-
+  
+  }
 </div>
+}
+</div>
+
 
 <button onClick={goBackToLobby} className="backbutton">Back to Lobby</button>
     </div>

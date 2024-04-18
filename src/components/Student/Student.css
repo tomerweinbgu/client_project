@@ -10,6 +10,8 @@
     text-align: left; /* Align text to the left */
     overflow-x: auto; /* Ensures any wide code content can be scrolled horizontally */
     white-space: pre-wrap; /* Maintains whitespace formatting */
+    word-wrap: break-word; /* Keeps text within the bounds of the textarea */
+
   }
 
   .studentQuestionArea {
@@ -45,7 +47,38 @@
     margin-top: 0px;
   }
 
+  .questionButton, .questionButtonDisabled {
+    display: block;
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+  }
 
+  .questionButtonDisabled{
+    pointer-events: none;
+    opacity: 1;
+    background-color: #444c54f1;
+  }
+
+  .questionButton {
+    background-color: #007BFF;
+  }
+
+  .questionButton:hover {
+    background-color: #007BFF;
+  }
+
+
+  
+  .questionButton:hover {
+    background-color: #0056b3;
+  }
 
  
   
