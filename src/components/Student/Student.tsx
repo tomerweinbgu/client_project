@@ -40,7 +40,6 @@ const navigate = useNavigate();
       const data: AnswerObject[] = await response.json();
       console.log(data);
       console.log("hey");
-    //   console.log(data[0].answer);
       setAnswersData(data);
       if (data.length > 0){
         const formattedText = data[0].answer.split("\n").map(line => `({ contentType: 'text', answer: '${line}' })`).join(", ");
